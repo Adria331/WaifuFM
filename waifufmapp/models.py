@@ -27,7 +27,7 @@ class Song(models.Model):
 
 class Album(models.Model):
     name = models.TextField()
-    #image = 
+    #image =
     area = models.TextField()
     year = models.IntegerField()
     author = models.ForeignKey(Artist)
