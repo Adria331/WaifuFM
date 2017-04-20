@@ -16,6 +16,16 @@ def index(request):
     page = template.render(variables)
     return HttpResponse(page)
 
+
+def log(request):
+    template = get_template('log.html')
+    variables = Context({
+        'Login success'
+    })
+    page = template.render(variables)
+    return HttpResponse(page)
+
+
 def inputdata(request): #sha de arreglar
 	apikey = '0ef4f814ff3c3df0dc51fac9d7d234da'
 	url_base = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=cher&api_key="

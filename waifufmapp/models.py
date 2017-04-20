@@ -31,7 +31,7 @@ class Album(models.Model):
     area = models.TextField()
     year = models.IntegerField()
     author = models.ForeignKey(Artist)
-    Genre = models.ForeignKey(Genre)
+    Genre = models.ForeignKey(Genre, default = None)
 
     def __unicode__(self):
         return self.name + ", by " + str(self.author)
