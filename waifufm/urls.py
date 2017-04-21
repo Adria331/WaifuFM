@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^index/$', log),
     url(r'^homepage/$', homepage),
-    url(r'^register/$', register),
+    url(r'^accounts/register/$', register),
     url(r'^$', index),
 ]

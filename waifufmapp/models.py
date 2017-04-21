@@ -10,15 +10,15 @@ class Genre(models.Model):
         return self.name
 
 class Artist(models.Model):
-    name = models.TextField()
-    area = models.TextField()
+    name = models.TextField(max_length = 20, null = False)
+    area = models.TextField(max_length = 100)
     biography = models.TextField(max_length = 20000, blank = True, null = True)
 
     def __unicode__(self):
         return self.name
 
 class Song(models.Model):
-    name = models.TextField()
+    name = models.TextField(max_length = 20, null = False)
     date = models.DateField(default = date.today)
     author = models.ForeignKey(Artist)
 
@@ -26,9 +26,9 @@ class Song(models.Model):
         return self.name + ", by " + str(self.author)
 
 class Album(models.Model):
-    name = models.TextField()
+    name = models.TextField(max_length = 20, null = False)
     image = models.ImageField(upload_to="picture_artist", blank=True, null=True)
-    area = models.TextField()
+    area = models.TextField(max_length = 100)
     year = models.IntegerField()
     author = models.ForeignKey(Artist)
     Genre = models.ForeignKey(Genre, default = None)
