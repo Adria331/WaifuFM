@@ -3,6 +3,13 @@
 <title>{{ Title }}</title>
 </head>
 <body>
-  Hello Waifu 
+ {% if user.username %}
+	<p>Welcome {{ user.username }} to WaifuFM!
+	(Temporal Homepage)</p><br/>
+	<a href="/accounts/logout">logout</a>
+	{% else %}
+	<p>Welcome anonymous user!
+	You need to <a href="/accounts/login/">login</a></p>
+	{% endif %}
 </body>
 </html>
