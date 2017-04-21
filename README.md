@@ -1,1 +1,1 @@
-Ez
+Music application
