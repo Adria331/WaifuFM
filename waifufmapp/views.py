@@ -21,12 +21,19 @@ def index(request):
 def homepage(request):
 	return HttpResponse("Temporal Homepage")
 
+def register(request):
+    template = get_template('register.html')
+    variables = Context({
+        'Title' : 'Registration',
+    })
+    page = template.render(variables)
+
 @login_required
 def log(request):
 	#return HttpResponse("You have logged in successfuly")
 	template = get_template('logged.html')
 	variables = Context({
-		'Title' : 'Waifu FM App'
+		'Title' : 'WaifuFM Login'
 	})
 	page = template.render(variables)
 	return HttpResponse(page)
