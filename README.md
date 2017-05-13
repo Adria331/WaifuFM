@@ -9,3 +9,9 @@ To execute the Django project you can do:
 **_21/04/2017_**
 
 You can Sign up and login into the application.
+
+Admin's login: 
+
+_id_: admin
+
+_pw_: admin
