@@ -1,7 +1,9 @@
-## WaifuFM
+## WaifuFM ##
 
+### Execute
+To execute the Django project you can do:
 
-To execute the Django project you can use `python manage.py runserver`
+`$ python manage.py runserver`
 
 
 **_21/04/2017_**
