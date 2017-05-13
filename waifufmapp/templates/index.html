@@ -6,7 +6,7 @@
  {% if user.username %}
 	<p>Welcome {{ user.username }} to WaifuFM!
 	(Temporal Homepage)</p><br/>
-	<a href="/accounts/logout">logout</a>
+	<a href="{% url 'logout' %}?next=/">Logout</a>
 	{% else %}
 	<p>Welcome anonymous user!
 	You need to <a href="/accounts/login/">login</a> or <a href="/accounts/register">register</a></p>

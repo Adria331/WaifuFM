@@ -18,10 +18,6 @@ def index(request):
 
     return HttpResponse(page)
 
-@login_required
-def homepage(request):
-	return HttpResponse("Temporal Homepage")
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
