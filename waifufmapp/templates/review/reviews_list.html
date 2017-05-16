@@ -1,0 +1,11 @@
+{% extends "waifufmapp/base.html" %}
+
+{% block content %}
+<ul>
+	{% for rev in latest_reviews_list %}
+		<li><a href="{% url 'waifufmapp:review_detail' review.id %}">
+		{{ review.rating }}</a></li>
+	{% empty %}<li>Sorry, no reviews registered yet.</li>
+	{% endfor %}
+</ul>
+{% endblock %}

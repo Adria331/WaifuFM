@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -10,15 +12,15 @@ class Genre(models.Model):
         return self.name
 
 class Artist(models.Model):
-    name = models.TextField(max_length = 20, null = False)
-    area = models.TextField(max_length = 100)
+    name = models.TextField(max_length = 200, null = False)
+    location = models.TextField(max_length = 100)
     biography = models.TextField(max_length = 20000, blank = True, null = True)
 
     def __unicode__(self):
         return self.name
 
 class Song(models.Model):
-    name = models.TextField(max_length = 20, null = False)
+    name = models.TextField(max_length = 200, null = False)
     date = models.DateField(default = date.today)
     author = models.ForeignKey(Artist)
 
@@ -26,9 +28,9 @@ class Song(models.Model):
         return self.name + ", by " + str(self.author)
 
 class Album(models.Model):
-    name = models.TextField(max_length = 20, null = False)
+    name = models.TextField(max_length = 200, null = False)
     image = models.ImageField(upload_to="picture_artist", blank=True, null=True)
-    area = models.TextField(max_length = 100)
+    location = models.TextField(max_length = 100)
     year = models.IntegerField()
     author = models.ForeignKey(Artist)
     Genre = models.ForeignKey(Genre, default = None)
@@ -39,9 +41,20 @@ class Album(models.Model):
 
 class Review(models.Model):
     RATING_CHOICES = ((1, '*'), (2, '**'), (3, '***'), (4, '****'), (5, '*****'))
-    song = models.ForeignKey(Song)
-    data = models.DateField()
+    comment = models.TextField(blank=True, null=True)
+    date = models.DateField()
+    user = models.ForeignKey(User, default=1)
     rating = models.PositiveSmallIntegerField("", blank = False, choices = RATING_CHOICES)
+
+    class Meta:
+        abstract = True
 
     def __unicode__(self):
         return self.song.name + ": " + str(self.rating)
+
+
+class AlbumReview(Review):
+    album = models.ForeignKey(Album)
+
+    class Meta:
+        unique_together = ("album", "user")

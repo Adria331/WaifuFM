@@ -16,6 +16,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from waifufmapp.views import index, register, log
 from django.contrib.auth.views import login, logout
+from django.views.static import serve
+from django.conf import settings
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -25,4 +28,5 @@ urlpatterns = [
     url(r'^accounts/register/$', register),
     url(r'^index/$', log),
     url(r'^$', index),
+    #url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufmapp')),
 ]
