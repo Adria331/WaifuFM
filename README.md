@@ -14,4 +14,4 @@ Admin's login:
 
 _id_: admin
 
-_pw_: admin
+_pw_: 1234567
