@@ -7,10 +7,10 @@ from forms import ArtistForm, AlbumForm
 from views import ArtistDetail, ReviewDetail
 
 urlpatterns = [
-# List latest 10 artists: /artists/
+# List latest 5 Reviews: 
     url(r'\^\$',
         ListView.as_view(
-            queryset=AlbumReview.objects.filter(date__lte=timezone.now()).order_by('-date')[:2],
+            queryset=AlbumReview.objects.filter(date__lte=timezone.now()).order_by('-date')[:5],
             context_object_name='latest_reviews_list',
             template_name='review/reviews_list.html'),
         name='reviews_list'),
@@ -27,6 +27,6 @@ urlpatterns = [
 # Create a album review, ex.: /waifufm/artists/1/albums/1/reviews/create/
 # Unlike the previous patterns, this one is implemented using a method view instead of a class view
     url(r'\^artists/(?P<pk>\\d+)/reviews/create/\$',
-    	'waifufm.views.review',
+    	'waifufmapp.views.review',
     	name='review_create'),
 ]

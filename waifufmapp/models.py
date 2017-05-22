@@ -49,12 +49,9 @@ class Review(models.Model):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
-        return self.song.name + ": " + str(self.rating)
-
 
 class AlbumReview(Review):
     album = models.ForeignKey(Album)
 
     class Meta:
-        unique_together = ("album", "user")
+        unique_together = ("album", "user") # 1 user -> 1 review

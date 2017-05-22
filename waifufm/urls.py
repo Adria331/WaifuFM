@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^accounts/register/$', register),
     url(r'^index/$', log),
     url(r'^$', index),
+    url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufm')),
     #url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufmapp')),
 ]
