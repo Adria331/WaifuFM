@@ -38,7 +38,6 @@ class Album(models.Model):
     def __unicode__(self):
         return self.name + ", by " + str(self.author)
 
-
 class Review(models.Model):
     RATING_CHOICES = ((1, '*'), (2, '**'), (3, '***'), (4, '****'), (5, '*****'))
     comment = models.TextField(blank=True, null=True)

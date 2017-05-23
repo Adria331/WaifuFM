@@ -1,22 +1,6 @@
+{% extends 'base.html' %}
 {% load staticfiles %}
+
 <html>
-<head>
-<title>{% block title %} WaifuFM {% endblock %}</title>
-</head>
-<body background="http://i64.tinypic.com/amuubp.png">
-<div id="header">
-	{% block header %}
-	{% if user.username %}<p>User: {{ user.username }} | <a href="{% url 'logout' %}?next=/">Logout</a> </p>
-	{% else %}<p>Do you have an account? Then <a href="/accounts/login/">Sign in</a>, if not you can <a href="/accounts/register/">Sign up</a></p>{% endif %}
-	{% endblock %}
-</div>
-<div id="content">
-	{% block content %}
-	{% if error_message %}<p><strong>{{ error_message}}</strong></p>{% endif %}
-	{% endblock %}
-</div>
-<div id="footer">
-	{% block footer %}{% endblock %}
-</div>
-</body>
+
 </html>

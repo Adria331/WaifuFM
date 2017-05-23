@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>
+        <FONT FACE="Arial">Albums</FONT>
+    </h2>
+    <ul>
+        {% for album in album_list %}
+          <li> Id: {{ album.id}}</li>
+          <li> Name: {{ album.name }}</li>
+          <li> Author: {{ album.author }}</li>
+          <li> Year: {{ album.year }}</li>
+          <br/>
+          <br/>
+        {% endfor %}
+    </ul>
+{% endblock %}

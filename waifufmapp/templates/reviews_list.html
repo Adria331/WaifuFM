@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<p> oda </p>
 <ul>
-	{% for rev in latest_reviews_list %}
-		<li><a href="{% url 'waifufmapp:review_detail' review.id %}">
-		{{ review.rating }}</a></li>
-	{% empty %}<li>Sorry, no reviews registered yet.</li>
+	{% for review in reviews %}
+		<li>{{ review.album.name }}</li>
+	{% empty %}<li>Sorry, no reviews registered yet,.</li>
 	{% endfor %}
 </ul>
 {% endblock %}

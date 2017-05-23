@@ -12,22 +12,24 @@ Class-based views
 Including another URLconf
     1. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
+
+from django.conf.urls import url, include
 from django.contrib import admin
-from waifufmapp.views import index, register, log
+
+from waifufmapp.views import register, log
 from django.contrib.auth.views import login, logout
+
 from django.views.static import serve
 from django.conf import settings
 
 
 urlpatterns = [
+
+    url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufmapp')),
+
     url(r'^admin/', include(admin.site.urls)),
-    #url(r'^g) < index here include index.url, namespace=WaifuFM
     url(r'^accounts/login/$', login, name='login'),
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^accounts/register/$', register),
     url(r'^index/$', log),
-    url(r'^$', index),
-    url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufm')),
-    #url(r'^waifufm/', include('waifufmapp.urls', namespace='waifufmapp')),
 ]

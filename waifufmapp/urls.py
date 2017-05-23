@@ -1,32 +1,41 @@
 from django.conf.urls import patterns, url
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView
-
-from models import Album, Artist, AlbumReview
+from models import Album, Artist
 from forms import ArtistForm, AlbumForm
-from views import ArtistDetail, ReviewDetail
+from views import HomepageView, AlbumListView, AlbumReviewCreate
+
 
 urlpatterns = [
-# List latest 5 Reviews: 
-    url(r'\^\$',
-        ListView.as_view(
-            queryset=AlbumReview.objects.filter(date__lte=timezone.now()).order_by('-date')[:5],
-            context_object_name='latest_reviews_list',
-            template_name='review/reviews_list.html'),
-        name='reviews_list'),
-# Artists details, ex.: /waifufm/artists/1/
-    url(r'\^artists/(?P<pk>\d+)/\$',
-        ArtistDetail.as_view(),
-        name='artists_detail'),
-# Album details, ex:  /waifufm/artists/1/albums/1/
-    url(r'\^artists/(?P<pkr>\d+)/albums/(?P<pk>\d+)/\$',
-        DetailView.as_view(
-        	model=Album,
-        	template_name='artists/album_detail.html'),
+    url(r'^$', HomepageView.as_view()),
+    url(r'^albumlist/$', AlbumListView.as_view(), name = 'album_list',), #List of albums
+    #url(r'^review/create/$', AlbumReviewCreate, name = 'review_create',),
+]
+
+
+
+
+'''
+
+    url(r'\^albums/(?P<pk>\d+)/\$',
+        AlbumDetail.as_view(),
         name='album_detail'),
+
+    url(r'\^album/(?P<pkr>\d+)/details/(?P<pk>\d+)/\$',
+        DetailView.as_view(
+            model=Album,
+            template_name='album_detail.html'),
+        name='album_detail'),
+
+    url(r'\^album/(?P<pkr>\d+)/review/(?P<pk>\d+)/\$',
+        DetailView.as_view(
+            model=Album,
+            template_name='album_review.html'),
+        name='album_review'),
+
 # Create a album review, ex.: /waifufm/artists/1/albums/1/reviews/create/
 # Unlike the previous patterns, this one is implemented using a method view instead of a class view
-    url(r'\^artists/(?P<pk>\\d+)/reviews/create/\$',
-    	'waifufmapp.views.review',
-    	name='review_create'),
-]
+    url(r'\^album/(?P<pk>\\d+)/reviews/create/\$',
+        'waifufmapp.views.review',
+        name='review_create'),
+'''

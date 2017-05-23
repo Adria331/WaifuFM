@@ -6,25 +6,41 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.template.context_processors import csrf
-from django.core.urlresolvers import reverse
-from django.views.generic import DetailView
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, TemplateView
 from django.views.generic.edit import CreateView
-
-from forms import ArtistForm, AlbumForm
+from django.utils import timezone
+from forms import ArtistForm, AlbumForm, AlbumReviewForm
 from models import AlbumReview, Artist, Album
 
 
-# Create your views here.
+class HomepageView(TemplateView):
+    template_name = 'index.html'
 
-def index(request):
-    template = get_template('reviews_list.html')
-    variables = Context({
-        'Title' : 'Waifu FM App',
-        'user': request.user
-    })
-    page = template.render(variables)
 
-    return HttpResponse(page)
+class AlbumListView(ListView):
+    model = Album
+    context_object_name = 'album_list'
+    template_name = 'album_list.html'
+
+'''
+@login_required
+class AlbumReviewCreate(CreateView):
+    model = AlbumReview
+    template_name = 'form.html'
+    form_class = AlbumReviewForm
+    success_url = reverse_lazy('waifufmapp:album_list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.albumreview = AlbumReview.objects.get(id=self.kwargs['pk'])
+        return super(AlbumReviewCreate, self).form_valid(form)
+'''
+
+
+
+
+
 
 def register(request):
     if request.method == 'POST':
@@ -50,31 +66,51 @@ def log(request):
 	page = template.render(variables)
 	return HttpResponse(page)
 
+
+
+
+
+
+
+
+'''
 class ReviewDetail(DetailView):
 	model = AlbumReview
-	template_name = 'waifufmapp/review_detail.html'
+	template_name = 'review_detail.html'
 
 	def get_context_data(self, **kwargs):
 		context = super(ReviewDetail, self).get_context_data(**kwargs)
 		return context
 
-class ArtistDetail(DetailView):
-	model = Artist
-    #template = get_template('artist_detail.html')
-	template_name = 'waifufmapp/artist_detail.html'
+class AlbumDetail(DetailView):
+	model = Album
+	template_name = 'album_detail.html'
 
 	def get_context_data(self, **kwargs):
-		context = super(ArtistDetail, self).get_context_data(**kwargs)
+		context = super(AlbumDetail, self).get_context_data(**kwargs)
 		return context
+
+class AlbumCreate(CreateView):
+    model = Album
+    template_name = 'form.html'
+    form_class = AlbumForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AlbumCreate, self).form_valid(form)
+
 
 def review(request, pk):
     album = get_object_or_404(Album, pk=pk)
     if AlbumReview.objects.filter(album=album, user=request.user).exists():
         AlbumReview.objects.get(album=album, user=request.user).delete()
-    new_review = AlbumsReview(
-        rating=request.POST['rating'],
-        comment=request.POST['comment'],
+    new_review = AlbumReview(
+        rating=request.POST.get("rating", False),
+        comment=request.POST.get("comment", False),
         user=request.user,
-        album=album)
+        date = timezone.now(),
+        album= album
+        )
     new_review.save()
-    return HttpResponseRedirect(reverse('waifufmapp:album_detail', args=(album.id,)))
+    return HttpResponseRedirect("/")
+'''
