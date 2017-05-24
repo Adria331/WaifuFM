@@ -1,5 +1,15 @@
 {% extends "base.html" %}
-
+{% block title %}Album - {{ album.name }}{% endblock %}
 {% block content %}
 
+<span vocab="http://schema.org/" typeof="Album">
+
+<h1>
+    <span property="name">{{ album.name }}</span>
+</h1>
+
+</span>
+
+{% endblock %}
+{% block footer %}
 {% endblock %}

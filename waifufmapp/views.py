@@ -60,7 +60,6 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        #form.instance.album = Album.objects.get(id=self.kwargs['pk'])
         return super(AlbumReviewCreate, self).form_valid(form)
 
 
@@ -70,6 +69,37 @@ class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
     model = AlbumReview
     template_name = 'delete_review.html'
     success_url = reverse_lazy('waifufmapp:review_list')
+
+
+
+##################################################################### Details
+
+
+class AlbumDetail(DetailView):
+    model = Album
+    template_name = 'album_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AlbumDetail, self).get_context_data(**kwargs)
+        return context
+
+
+class AlbumReviewDetail(DetailView):
+    model = Album
+    template_name = 'album_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AlbumDetail, self).get_context_data(**kwargs)
+        context['RATING_CHOICES'] = RestaurantReview.RATING_CHOICES
+        return context
+
+
+
+
+
+
+
+
 
 
 

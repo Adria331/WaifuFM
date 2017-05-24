@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView
 from models import Album, Artist, AlbumReview
 from forms import ArtistForm, AlbumForm, AlbumReviewForm
-from views import HomepageView, AlbumListView, AlbumReviewCreate, ReviewListView, ReviewDelete, LoginRequiredCheckIsOwnerUpdateView
+from views import HomepageView, AlbumListView, AlbumReviewCreate, ReviewListView, ReviewDelete, LoginRequiredCheckIsOwnerUpdateView, AlbumDetail, AlbumReviewDetail
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -20,6 +20,12 @@ urlpatterns = [
             form_class=AlbumReviewForm),
         name='review_edit'),
 
+    url(r'^albums/(?P<pk>\d+)/$', AlbumDetail.as_view(), name='album_detail'),
+    url(r'^restaurants/(?P<pkr>\d+)/dishes/(?P<pk>\d+)/$',
+        DetailView.as_view(
+            model=AlbumReview,
+            template_name='review_detail.html'),
+        name='review_detail'),
 ]
 
 

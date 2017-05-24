@@ -50,6 +50,8 @@ class AlbumReview(models.Model):
     def __unicode__(self):
         return "Review of: '" + str(self.album.name) + "', by " + str(self.user)
 
+    def get_absolute_url(self):
+        return reverse('waifufmapp:review_list', kwargs={'pkr': self.album.pk, 'pk': self.pk})
 '''
 class AlbumReview(Review):
     album = models.ForeignKey(Album)
