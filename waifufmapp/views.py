@@ -57,7 +57,7 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
     model = AlbumReview
     template_name = 'form.html'
     form_class = AlbumReviewForm
-    success_url = reverse_lazy('waifufmapp:review_list')
+    success_url = reverse_lazy('waifufmapp:album_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user

@@ -10,25 +10,25 @@ urlpatterns = [
     url(r'^$', HomepageView.as_view()),
 
     #Llistes
-    url(r'^albumlist/$', AlbumListView.as_view(), name = 'album_list',),
+    url(r'^albums/$', AlbumListView.as_view(), name = 'album_list',),
     url(r'^reviewlist/$', ReviewListView.as_view(), name = 'review_list',),
 
     #Tractament de reviews
-    url(r'^album/(?P<pk>\d+)/review/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),
-    #url(r'^album/(?P<pk>\d+)/review/(?P<pk>\d+)/delete/$', ReviewDelete.as_view(), name='review_delete'),
-    #url(r'^album/(?P<pk>\d+)/review/(?P<pk>\d+)/edit/$',
-    #    LoginRequiredCheckIsOwnerUpdateView.as_view(
-    #        model=AlbumReview,
-    #       template_name='form.html',
-    #        form_class=AlbumReviewForm),
-    #    name='review_edit'),
+    url(r'^albums/(?P<pk>\d+)/reviews/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),
+    url(r'^albums/(?P<pkr>\d+)/reviews/(?P<pk>\d+)/delete/$', ReviewDelete.as_view(), name='review_delete'),
+    url(r'^albums/(?P<pkr>\d+)/reviews/(?P<pk>\d+)/edit/$',
+        LoginRequiredCheckIsOwnerUpdateView.as_view(
+            model=AlbumReview,
+           template_name='form.html',
+            form_class=AlbumReviewForm),
+        name='review_edit'),
 
     #Detalls
     url(r'^albums/(?P<pk>\d+)/$', AlbumDetail.as_view(), name='album_detail'),
     url(r'^albums/(?P<pkr>\d+)/reviews/(?P<pk>\d+)/$',
         DetailView.as_view(
             model=AlbumReview,
-            template_name='review_detail.html'),
+            template_name='reviews_detail.html'),
         name='review_detail'),
 ]
 

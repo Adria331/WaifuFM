@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+Review of
 <h1>
-    {{ albumreview.album.name }} Review
-</h1>
-
+    {{ albumreview.album.name }}</h1> 
 {% endblock %}
+</br>
+<div>Rating: {{albumreview.rating}}</div>
+<div>{{albumreview.comment }}</div>
 
 {% block footer %}
     Created by {{ albumreview.user }} on {{ albumreview.date }}
