@@ -7,38 +7,69 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.template.context_processors import csrf
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic import DetailView, ListView, TemplateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 from django.utils import timezone
 from forms import ArtistForm, AlbumForm, AlbumReviewForm
 from models import AlbumReview, Artist, Album
+from django.core.exceptions import PermissionDenied
+from django.utils.decorators import method_decorator
+
+#################################################################### Seguretat
+class LoginRequiredMixin(object):
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
 
+class CheckIsOwnerMixin(object):
+    def get_object(self, *args, **kwargs):
+        obj = super(CheckIsOwnerMixin, self).get_object(*args, **kwargs)
+        if not obj.user == self.request.user:
+            raise PermissionDenied
+        return obj
+
+class LoginRequiredCheckIsOwnerUpdateView(LoginRequiredMixin, CheckIsOwnerMixin, UpdateView):
+    template_name = 'form.html'
+
+
+##################################################################### Pagina Principal
 class HomepageView(TemplateView):
     template_name = 'index.html'
 
 
+##################################################################### Llistes 
 class AlbumListView(ListView):
     model = Album
     context_object_name = 'album_list'
     template_name = 'album_list.html'
 
-'''
-@login_required
-class AlbumReviewCreate(CreateView):
+
+class ReviewListView(ListView):
+    model = AlbumReview
+    context_object_name = 'review_list'
+    template_name = 'reviews_list2.html'
+
+
+##################################################################### Crear
+class AlbumReviewCreate(LoginRequiredMixin, CreateView):
     model = AlbumReview
     template_name = 'form.html'
     form_class = AlbumReviewForm
-    success_url = reverse_lazy('waifufmapp:album_list')
+    success_url = reverse_lazy('waifufmapp:review_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.albumreview = AlbumReview.objects.get(id=self.kwargs['pk'])
+        #form.instance.album = Album.objects.get(id=self.kwargs['pk'])
         return super(AlbumReviewCreate, self).form_valid(form)
-'''
 
 
+#################################################################### Borrar
 
+class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
+    model = AlbumReview
+    template_name = 'delete_review.html'
+    success_url = reverse_lazy('waifufmapp:review_list')
 
 
 

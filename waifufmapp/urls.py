@@ -1,15 +1,25 @@
 from django.conf.urls import patterns, url
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, UpdateView
-from models import Album, Artist
-from forms import ArtistForm, AlbumForm
-from views import HomepageView, AlbumListView, AlbumReviewCreate
-
+from models import Album, Artist, AlbumReview
+from forms import ArtistForm, AlbumForm, AlbumReviewForm
+from views import HomepageView, AlbumListView, AlbumReviewCreate, ReviewListView, ReviewDelete, LoginRequiredCheckIsOwnerUpdateView
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^$', HomepageView.as_view()),
     url(r'^albumlist/$', AlbumListView.as_view(), name = 'album_list',), #List of albums
-    #url(r'^review/create/$', AlbumReviewCreate, name = 'review_create',),
+    url(r'^reviewlist/$', ReviewListView.as_view(), name = 'review_list',),
+
+    url(r'^review/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),
+    url(r'^review/(?P<pk>\d+)/delete/$', ReviewDelete.as_view(), name='review_delete'),
+    url(r'^review/(?P<pk>\d+)/edit/$',
+        LoginRequiredCheckIsOwnerUpdateView.as_view(
+            model=AlbumReview,
+            template_name='form.html',
+            form_class=AlbumReviewForm),
+        name='review_edit'),
+
 ]
 
 

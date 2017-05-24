@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from datetime import date
+from django.utils import timezone
 
 class Genre(models.Model):
     name = models.TextField()
@@ -38,19 +39,21 @@ class Album(models.Model):
     def __unicode__(self):
         return self.name + ", by " + str(self.author)
 
-class Review(models.Model):
+class AlbumReview(models.Model):
     RATING_CHOICES = ((1, '*'), (2, '**'), (3, '***'), (4, '****'), (5, '*****'))
-    comment = models.TextField(blank=True, null=True)
-    date = models.DateField()
+    comment = models.TextField(blank=True, default= "No Comment")
+    date = models.DateField(default = timezone.now())
+    album = models.ForeignKey(Album)
     user = models.ForeignKey(User, default=1)
     rating = models.PositiveSmallIntegerField("", blank = False, choices = RATING_CHOICES)
 
-    class Meta:
-        abstract = True
+    def __unicode__(self):
+        return "Review of: '" + str(self.album.name) + "', by " + str(self.user)
 
-
+'''
 class AlbumReview(Review):
     album = models.ForeignKey(Album)
 
     class Meta:
         unique_together = ("album", "user") # 1 user -> 1 review
+'''
