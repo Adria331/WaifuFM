@@ -8,20 +8,24 @@ from django.views.generic.base import RedirectView
 
 urlpatterns = [
     url(r'^$', HomepageView.as_view()),
-    url(r'^albumlist/$', AlbumListView.as_view(), name = 'album_list',), #List of albums
+
+    #Llistes
+    url(r'^albumlist/$', AlbumListView.as_view(), name = 'album_list',),
     url(r'^reviewlist/$', ReviewListView.as_view(), name = 'review_list',),
 
-    url(r'^review/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),
-    url(r'^review/(?P<pk>\d+)/delete/$', ReviewDelete.as_view(), name='review_delete'),
-    url(r'^review/(?P<pk>\d+)/edit/$',
-        LoginRequiredCheckIsOwnerUpdateView.as_view(
-            model=AlbumReview,
-            template_name='form.html',
-            form_class=AlbumReviewForm),
-        name='review_edit'),
+    #Tractament de reviews
+    url(r'^album/(?P<pk>\d+)/review/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),
+    #url(r'^album/(?P<pk>\d+)/review/(?P<pk>\d+)/delete/$', ReviewDelete.as_view(), name='review_delete'),
+    #url(r'^album/(?P<pk>\d+)/review/(?P<pk>\d+)/edit/$',
+    #    LoginRequiredCheckIsOwnerUpdateView.as_view(
+    #        model=AlbumReview,
+    #       template_name='form.html',
+    #        form_class=AlbumReviewForm),
+    #    name='review_edit'),
 
+    #Detalls
     url(r'^albums/(?P<pk>\d+)/$', AlbumDetail.as_view(), name='album_detail'),
-    url(r'^restaurants/(?P<pkr>\d+)/dishes/(?P<pk>\d+)/$',
+    url(r'^albums/(?P<pkr>\d+)/reviews/(?P<pk>\d+)/$',
         DetailView.as_view(
             model=AlbumReview,
             template_name='review_detail.html'),

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>
-        <FONT FACE="Arial">Albums</FONT>
-    </h2>
+    <h1>
+        <FONT FACE="Arial">Album List</FONT>
+    </h1>
     <ul>
         {% for album in album_list %}
           <li> Id: {{ album.id}}</li>
-          <li> Name: {{ album.name }}</li>
+          <li> Name: <a href="{% url 'waifufmapp:album_detail' album.id %}"> {{ album.name }}</a></li>
           <li> Author: {{ album.author }}</li>
           <li> Year: {{ album.year }}</li>
           <br/>

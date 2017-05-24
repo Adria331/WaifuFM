@@ -34,25 +34,26 @@ class LoginRequiredCheckIsOwnerUpdateView(LoginRequiredMixin, CheckIsOwnerMixin,
 
 
 ##################################################################### Pagina Principal
-class HomepageView(TemplateView):
+class HomepageView(TemplateView): # ok
     template_name = 'index.html'
 
 
 ##################################################################### Llistes 
-class AlbumListView(ListView):
+class AlbumListView(ListView): # ok
     model = Album
     context_object_name = 'album_list'
     template_name = 'album_list.html'
 
 
-class ReviewListView(ListView):
+class ReviewListView(ListView): # ok
     model = AlbumReview
     context_object_name = 'review_list'
     template_name = 'reviews_list2.html'
 
 
 ##################################################################### Crear
-class AlbumReviewCreate(LoginRequiredMixin, CreateView):
+
+class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
     model = AlbumReview
     template_name = 'form.html'
     form_class = AlbumReviewForm
@@ -75,7 +76,7 @@ class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
 ##################################################################### Details
 
 
-class AlbumDetail(DetailView):
+class AlbumDetail(DetailView): # ok
     model = Album
     template_name = 'album_detail.html'
 
