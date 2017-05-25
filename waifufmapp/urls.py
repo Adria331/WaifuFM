@@ -20,6 +20,7 @@ urlpatterns = [
         LoginRequiredCheckIsOwnerUpdateView.as_view(
             model=AlbumReview,
            template_name='form.html',
+           success_url='/waifufm',
             form_class=AlbumReviewForm),
         name='review_edit'),
 
