@@ -7,14 +7,17 @@
 
 
     <ul>
+
         {% for review in review_list %}
+
+        
           <li><h3> {{ review.album.name}}</h3></li>
-          <li> {{ review.comment }}</li>
-          <li> By {{ review.user }}</li>
-          <li> Qualification: {{ review.rating }}</li>
+          <li> Review id: {{ review.id }} </li>
+          <li> Album id: {{ review.album.id }} </li>
+          <li> By {{ review.user }} on {{ review.date }}</li>
           {% if user == review.user %}
-            (<a href="{% url 'waifufmapp:review_edit' review.id %}">edit review</a>)
-            (<a href="{% url 'waifufmapp:review_delete' review.id %}">delete review</a>)
+            (<a href="{% url 'waifufmapp:review_edit' review.album.id review.id %}">edit review</a>)
+            (<a href="{% url 'waifufmapp:review_delete' review.album.id review.id %}">delete review</a>)
           {% endif %}
           <br/>
           <br/>

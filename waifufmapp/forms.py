@@ -14,4 +14,4 @@ class AlbumForm(ModelForm):
 class AlbumReviewForm(ModelForm):
 	class Meta:
 		model = AlbumReview
-		exclude = ('user', 'date')
+		exclude = ('user', 'date', 'album')

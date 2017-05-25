@@ -11,7 +11,7 @@ urlpatterns = [
 
     #Llistes
     url(r'^albums/$', AlbumListView.as_view(), name = 'album_list',),
-    url(r'^reviewlist/$', ReviewListView.as_view(), name = 'review_list',),
+    url(r'^reviews/$', ReviewListView.as_view(), name = 'review_list',),
 
     #Tractament de reviews
     url(r'^albums/(?P<pk>\d+)/reviews/create/$', AlbumReviewCreate.as_view(), name = 'review_create',),

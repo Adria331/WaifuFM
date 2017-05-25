@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from waifufmapp.views import register, log
+from waifufmapp.views import register, log, nolink
 from django.contrib.auth.views import login, logout
 
 from django.views.static import serve
@@ -32,4 +32,5 @@ urlpatterns = [
     url(r'^accounts/logout/$', logout, name='logout'),
     url(r'^accounts/register/$', register),
     url(r'^index/$', log),
+    url(r'^$', nolink),
 ]

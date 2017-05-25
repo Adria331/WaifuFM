@@ -2,13 +2,23 @@
 
 {% block content %}
 Review of
-<h1>
-    {{ albumreview.album.name }}</h1> 
-{% endblock %}
+<h2>
+    {{ albumreview.album.name }}</h2> 
+
 </br>
 <div>Rating: {{albumreview.rating}}</div>
 <div>{{albumreview.comment }}</div>
+</br>
+Created by user: '{{ albumreview.user }}' on {{ albumreview.date }}
+</br>
+</br>
+{% if user == review.user %}
+            (<a href="{% url 'waifufmapp:review_edit' review.album.id review.id %}">edit review</a>)
+            (<a href="{% url 'waifufmapp:review_delete' review.album.id review.id %}">delete review</a>)
+          {% endif %}
 
+
+{% endblock %}
 {% block footer %}
-    Created by {{ albumreview.user }} on {{ albumreview.date }}
+   
 {% endblock %}

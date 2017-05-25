@@ -41,11 +41,13 @@ class Album(models.Model):
 
 class AlbumReview(models.Model):
     RATING_CHOICES = ((1, '*'), (2, '**'), (3, '***'), (4, '****'), (5, '*****'))
-    comment = models.TextField(blank=True, default= "No Comment")
+    comment = models.TextField(blank=True, default= "")
     date = models.DateField(default = timezone.now())
     album = models.ForeignKey(Album)
+    userlocation = models.TextField(max_length = 100, null = True)
     user = models.ForeignKey(User, default=1)
     rating = models.PositiveSmallIntegerField("", blank = False, choices = RATING_CHOICES)
+
 
     def __unicode__(self):
         return "Review of: '" + str(self.album.name) + "', by " + str(self.user)

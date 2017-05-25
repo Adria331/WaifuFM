@@ -1,12 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Album - {{ album.name }}{% endblock %}
+{% block title %}{{ album.name }} Details{% endblock %}
 {% block content %}
 
 <span vocab="http://schema.org/" typeof="Album">
 
 <h2><span property="name">{{ album.name }}</span></h2>
 
-	<li> Author: {{ album.name}}</li>
+	<li> Author: {{ album.author}}</li>
 	<li> Year: {{ album.year}}</li>
 	<li> Location: {{ album.location}}</li>
 	<li> Genre: {{ album.Genre}}</li>
@@ -14,7 +14,9 @@
 </span>
 </br>
 </br>
-<li><a href="{% url 'waifufmapp:album_list' %}"> Go back to the list </a></li>
+<a href="{% url 'waifufmapp:review_create' album.id  %}"> Create review </a>
+</br>
+<a href="{% url 'waifufmapp:album_list' %}"> Go back to the list </a>
 {% endblock %}
 {% block footer %}
 {% endblock %}

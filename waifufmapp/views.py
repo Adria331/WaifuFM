@@ -15,7 +15,11 @@ from models import AlbumReview, Artist, Album
 from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 
+
+
+
 #################################################################### Seguretat
+
 class LoginRequiredMixin(object):
     @method_decorator(login_required())
     def dispatch(self, *args, **kwargs):
@@ -34,11 +38,13 @@ class LoginRequiredCheckIsOwnerUpdateView(LoginRequiredMixin, CheckIsOwnerMixin,
 
 
 ##################################################################### Pagina Principal
+
 class HomepageView(TemplateView): # ok
     template_name = 'index.html'
 
 
 ##################################################################### Llistes 
+
 class AlbumListView(ListView): # ok
     model = Album
     context_object_name = 'album_list'
@@ -61,6 +67,7 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        form.instance.album = Album.objects.get(id=self.kwargs['pk'])
         return super(AlbumReviewCreate, self).form_valid(form)
 
 
@@ -68,10 +75,12 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
 
 class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
     model = AlbumReview
-    template_name = 'delete_review.html'
-    success_url = reverse_lazy('waifufmapp:review_list')
 
+    def get(self, request, pkr, pk):
+        AlbumReview.objects.filter(user=request.user, review=pk, reviewa=pkr).delete()
+        return render_to_response(template_name='delete_review.html')
 
+######################
 
 ##################################################################### Details
 
@@ -128,7 +137,8 @@ def log(request):
 	page = template.render(variables)
 	return HttpResponse(page)
 
-
+def nolink(request):
+    return HttpResponseRedirect('/waifufm')
 
 
 
@@ -143,36 +153,4 @@ class ReviewDetail(DetailView):
 	def get_context_data(self, **kwargs):
 		context = super(ReviewDetail, self).get_context_data(**kwargs)
 		return context
-
-class AlbumDetail(DetailView):
-	model = Album
-	template_name = 'album_detail.html'
-
-	def get_context_data(self, **kwargs):
-		context = super(AlbumDetail, self).get_context_data(**kwargs)
-		return context
-
-class AlbumCreate(CreateView):
-    model = Album
-    template_name = 'form.html'
-    form_class = AlbumForm
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(AlbumCreate, self).form_valid(form)
-
-
-def review(request, pk):
-    album = get_object_or_404(Album, pk=pk)
-    if AlbumReview.objects.filter(album=album, user=request.user).exists():
-        AlbumReview.objects.get(album=album, user=request.user).delete()
-    new_review = AlbumReview(
-        rating=request.POST.get("rating", False),
-        comment=request.POST.get("comment", False),
-        user=request.user,
-        date = timezone.now(),
-        album= album
-        )
-    new_review.save()
-    return HttpResponseRedirect("/")
 '''
