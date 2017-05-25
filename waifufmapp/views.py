@@ -63,7 +63,7 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
     model = AlbumReview
     template_name = 'form.html'
     form_class = AlbumReviewForm
-    success_url = reverse_lazy('waifufmapp:album_list')
+    success_url = reverse_lazy('waifufmapp:review_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -75,11 +75,9 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
 
 class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
     model = AlbumReview
-
-    def get(self, request, pkr, pk):
-        AlbumReview.objects.filter(user=request.user, review=pk, reviewa=pkr).delete()
-        return render_to_response(template_name='delete_review.html')
-
+    template_name = 'delete_review.html'
+    success_url = reverse_lazy('waifufmapp:review_list')
+    
 ######################
 
 ##################################################################### Details
