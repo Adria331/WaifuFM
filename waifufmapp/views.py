@@ -77,10 +77,11 @@ class ReviewDelete(LoginRequiredMixin, CheckIsOwnerMixin, DeleteView):
     model = AlbumReview
     template_name = 'delete_review.html'
     success_url = reverse_lazy('waifufmapp:review_list')
-    
-######################
 
-##################################################################### Details
+
+
+
+################################################################# Details
 
 
 class AlbumDetail(DetailView): # ok

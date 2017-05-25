@@ -12,11 +12,10 @@ Review of
 Created by user: '{{ albumreview.user }}' on {{ albumreview.date }}
 </br>
 </br>
-{% if user == review.user %}
-            (<a href="{% url 'waifufmapp:review_edit' review.album.id review.id %}">edit review</a>)
-            (<a href="{% url 'waifufmapp:review_delete' review.album.id review.id %}">delete review</a>)
+{% if user == albumreview.user %}
+            (<a href="{% url 'waifufmapp:review_edit' albumreview.album.id albumreview.id %}">edit review</a>)
+            (<a href="{% url 'waifufmapp:review_delete' albumreview.album.id albumreview.id %}">delete review</a>)
           {% endif %}
-
 
 {% endblock %}
 {% block footer %}

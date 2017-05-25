@@ -10,8 +10,9 @@
 
         {% for review in review_list %}
 
-        
+
           <li><h3> {{ review.album.name}}</h3></li>
+        <a href="{% url 'waifufmapp:review_detail' review.album.id review.id %}">Details</a>
           <li> Review id: {{ review.id }} </li>
           <li> Album id: {{ review.album.id }} </li>
           <li> By {{ review.user }} on {{ review.date }}</li>
