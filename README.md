@@ -14,4 +14,11 @@ Admin's login:
 
 _id_: admin
 
-_pw_: admin
+_pw_: 1234567
+
+_user: Flacko
+_pw_user: flacko
+
+-> Autocomplete implemented in create or edit reviews.
+-> Api restful working
+
