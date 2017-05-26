@@ -15,6 +15,12 @@ from models import AlbumReview, Artist, Album
 from django.core.exceptions import PermissionDenied
 from django.utils.decorators import method_decorator
 
+from serializers import AlbumSerializer, AlbumReviewSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework import permissions, generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 
@@ -99,18 +105,10 @@ class AlbumReviewDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AlbumDetail, self).get_context_data(**kwargs)
-        context['RATING_CHOICES'] = RestaurantReview.RATING_CHOICES
         return context
 
 
-
-
-
-
-
-
-
-
+################################################################## Users
 
 def register(request):
     if request.method == 'POST':
@@ -140,16 +138,42 @@ def nolink(request):
     return HttpResponseRedirect('/waifufm')
 
 
+########################################################## APIREST
+
+
+class IsOwnerOrReadOnly(permissions.IsAuthenticatedOrReadOnly):
+
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.user == request.user
+
+
+class APIAlbumList(generics.ListCreateAPIView):
+    model = Album
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class APIAlbumDetail(generics.RetrieveUpdateDestroyAPIView):
+    model = Album
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class APIAlbumReviewList(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    model = AlbumReview
+    queryset = AlbumReview.objects.all()
+    serializer_class = AlbumReviewSerializer
+
+class APIAlbumReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (IsOwnerOrReadOnly,)
+    model = AlbumReview
+    queryset = AlbumReview.objects.all()
+    serializer_class = AlbumReviewSerializer
 
 
 
-
-'''
-class ReviewDetail(DetailView):
-	model = AlbumReview
-	template_name = 'review_detail.html'
-
-	def get_context_data(self, **kwargs):
-		context = super(ReviewDetail, self).get_context_data(**kwargs)
-		return context
-'''
+#APIAlbums, APIAlbumDetail, APIAlbumReviewList, APIAlbumReviewDetail
