@@ -2,7 +2,7 @@
 {% block title %}{{ album.name }} Details{% endblock %}
 {% block content %}
 
-<span vocab="http://schema.org/" typeof="Album">
+<span vocab="http://schema.org/" typeof="album">
 
 <h2><span property="name">{{ album.name }}</span></h2>
 
@@ -13,6 +13,40 @@
 	
 </span>
 </br>
+
+<h2>Reviews</h2>
+{% if album.albumreview_set.all|length > 0 %}
+<span rel="aggregateRating">
+    <p typeof="AggregateRating">
+        Average rating <span property="ratingValue">{{ album.averageRating|stringformat:".1f" }}</span>
+        {% with album.albumreview_set.all|length as reviewCount %}
+        from <span property="reviewCount">{{ reviewCount }}</span> review{{ reviewCount|pluralize }}
+        {% endwith %}
+    </p>
+</span>
+<ul rel="review">
+    {% for review in album.albumreview_set.all %}
+        <li typeof="Review">
+            <p rel="reviewRating" typeof="Rating">
+                <span property="worstRating" content="{{ RATING_CHOICES.0.0 }}"></span>
+
+                <span property="ratingValue">{{ review.rating }}</span> star{{ review.rating|pluralize }}
+
+                {% with RATING_CHOICES|last as best %}
+                <span property="bestRating" content="{{ best.0 }}"></span>
+                {% endwith %}
+
+            </p>
+            <p property="description">{% if review.comment %}{{ review.comment }}{% endif %}</p>
+            <p>Created by <span property="author">{{ review.user }}</span> on
+                <span property="datePublished" content="{{ review.date|date:'Y-m-d' }}">{{ review.date }}</span></p>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+</span>
+
 </br>
 <a href="{% url 'waifufmapp:review_create' album.id  %}"> Create review </a>
 </br>
@@ -20,4 +54,3 @@
 {% endblock %}
 {% block footer %}
 {% endblock %}
-

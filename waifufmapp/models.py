@@ -54,10 +54,3 @@ class AlbumReview(models.Model):
 
     def get_absolute_url(self):
         return reverse('waifufmapp:review_list', kwargs={'pkr': self.album.pk, 'pk': self.pk})
-'''
-class AlbumReview(Review):
-    album = models.ForeignKey(Album)
-
-    class Meta:
-        unique_together = ("album", "user") # 1 user -> 1 review
-'''

@@ -69,7 +69,7 @@ class AlbumReviewCreate(LoginRequiredMixin, CreateView): # ok
     model = AlbumReview
     template_name = 'form.html'
     form_class = AlbumReviewForm
-    success_url = reverse_lazy('waifufmapp:review_list')
+    success_url = reverse_lazy('waifufmapp:album_list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -96,6 +96,7 @@ class AlbumDetail(DetailView): # ok
 
     def get_context_data(self, **kwargs):
         context = super(AlbumDetail, self).get_context_data(**kwargs)
+        context['RATING_CHOICES'] = AlbumReview.RATING_CHOICES
         return context
 
 
