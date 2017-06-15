@@ -23,9 +23,9 @@
 
 <ul rel="review">
     {% for review in album.albumreview_set.all %}
-        <li>
-            <p>
-            <span property="reviewRating">{{ review.rating }}</span> star{{ review.rating|pluralize }}
+        <li typeof="Review">
+            <p rel="reviewRating" typeof="Rating">
+            <span property="ratingValue">{{ review.rating }}</span> star{{ review.rating|pluralize }}
             </p>
             <p property="reviewBody">{% if review.comment %}{{ review.comment }}{% endif %}</p>
             <p>Created by
