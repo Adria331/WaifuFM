@@ -21,11 +21,20 @@
 <h2>Reviews for album: <span property="itemReviewed">{{album.name}}</span>
 </h2>
 
+<span rel="aggregateRating">
+	<p typeof="aggregateRating">
+		<span property="ratingValue" content="2.0"></span>
+		<span property="reviewCount" content="3"></span>
+	</p>
+</span>
+
 <ul rel="review">
     {% for review in album.albumreview_set.all %}
         <li typeof="Review">
             <p rel="reviewRating" typeof="Rating">
+            <span property="worstRating" content="0.0"></span>
             <span property="ratingValue">{{ review.rating }}</span> star{{ review.rating|pluralize }}
+						<span property="bestRating" content="5.0"></span>
             </p>
             <p property="reviewBody">{% if review.comment %}{{ review.comment }}{% endif %}</p>
             <p>Created by
@@ -37,9 +46,8 @@
 
 </span>
 
-</br>
+
 <a href="{% url 'waifufmapp:review_create' album.id  %}"> Create review </a>
-</br>
 <a href="{% url 'waifufmapp:album_list' %}"> Go back to the list </a>
 {% endblock %}
 {% block footer %}
