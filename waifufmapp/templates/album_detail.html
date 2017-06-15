@@ -2,48 +2,38 @@
 {% block title %}{{ album.name }} Details{% endblock %}
 {% block content %}
 
-<span vocab="http://schema.org/" typeof="album">
+  <span vocab="http://schema.org/" typeof="MusicAlbum">
 
 <h2><span property="name">{{ album.name }}</span></h2>
 
-	<li> Author: {{ album.author}}</li>
-	<li> Year: {{ album.year}}</li>
-	<li> Location: {{ album.location}}</li>
-	<li> Genre: {{ album.Genre}}</li>
-	
+	<li>Author: <span property="byArtist">{{ album.author}}</span> </li>
+		<li>Date Published: <span property="datePublished">{{ album.year}}</span> </li>
+		<li>Location: <span property="locationCreated">{{ album.location}}</span> </li>
+		<li>Genre: <span property="genre">{{ album.Genre}}</span> </li>
+
+
+</span>
 </span>
 </br>
 
-<h2>Reviews</h2>
-{% if album.albumreview_set.all|length > 0 %}
-<span rel="aggregateRating">
-    <p typeof="AggregateRating">
-        Average rating <span property="ratingValue">{{ album.averageRating|stringformat:".1f" }}</span>
-        {% with album.albumreview_set.all|length as reviewCount %}
-        from <span property="reviewCount">{{ reviewCount }}</span> review{{ reviewCount|pluralize }}
-        {% endwith %}
-    </p>
-</span>
+<span vocab="http://schema.org/" typeof="Review">
+
+<h2>Reviews for album: <span property="itemReviewed">{{album.name}}</span>
+</h2>
+
 <ul rel="review">
     {% for review in album.albumreview_set.all %}
-        <li typeof="Review">
-            <p rel="reviewRating" typeof="Rating">
-                <span property="worstRating" content="{{ RATING_CHOICES.0.0 }}"></span>
-
-                <span property="ratingValue">{{ review.rating }}</span> star{{ review.rating|pluralize }}
-
-                {% with RATING_CHOICES|last as best %}
-                <span property="bestRating" content="{{ best.0 }}"></span>
-                {% endwith %}
-
+        <li>
+            <p>
+            <span property="reviewRating">{{ review.rating }}</span> star{{ review.rating|pluralize }}
             </p>
-            <p property="description">{% if review.comment %}{{ review.comment }}{% endif %}</p>
-            <p>Created by <span property="author">{{ review.user }}</span> on
+            <p property="reviewBody">{% if review.comment %}{{ review.comment }}{% endif %}</p>
+            <p>Created by
+							  <span property="author">{{ review.user }}</span> on
                 <span property="datePublished" content="{{ review.date|date:'Y-m-d' }}">{{ review.date }}</span></p>
         </li>
     {% endfor %}
 </ul>
-{% endif %}
 
 </span>
 
